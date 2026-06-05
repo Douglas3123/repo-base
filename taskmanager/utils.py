@@ -1,22 +1,31 @@
-# Zona de conflito intencional: ambos os devs modificarão format_task e filter_tasks
+def filter_tasks(tasks, show_done=True, priority=None, min_priority=None):
+    """Filtra tarefas por status e prioridade."""
+    filtered = tasks
+    
+    if not show_done:
+        filtered = [t for t in filtered if not t.get("done", False)]
+
+
+
+    if priority:
+        filtered = [t for t in filtered if t.get("priority") == priority]
+
+
+
+    if min_priority:
+        filtered = [t for t in filtered if t.get("priority") >= min_priority]
+
+
+
+    
+    return filtered
+
 
 def format_task(task):
-    """Formata uma tarefa de forma legível para exibição na CLI."""
-    # Status com emoji
-    if task.get("done", False):
-        status = "✅"
-    else:
-        status = "⬜"
-    
-    # Prioridade com cor/simbolo
-    priority = task.get("priority", "M")
-    
-    # Data de prazo (se existir)
-    due = f" | 📅 {task['due_date']}" if task.get("due_date") else ""
-    
-    return f"{status} [{priority}] #{task['id']:03d} - {task['title']}{due}"
+    status = "✅" if task.get("done", False) else "⬜"
 
-def filter_tasks(tasks, show_done=True):
-    if show_done:
-        return tasks
-    return [t for t in tasks if not t["done"]]
+
+
+    return f"{status} [{task.get('priority', 'M')}] #{task['id']} - {task['title']}"
+
+
