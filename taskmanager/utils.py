@@ -1,15 +1,20 @@
 # Zona de conflito intencional: ambos os devs modificarão format_task e filter_tasks
 
 def format_task(task):
-    # Status dinâmico
-    status = "[x]" if task.get("done", False) else "[ ]"
+    """Formata uma tarefa de forma legível para exibição na CLI."""
+    # Status com emoji
+    if task.get("done", False):
+        status = "✅"
+    else:
+        status = "⬜"
     
-    # Adiciona data de criação se existir
-    due_date = ""
-    if task.get("due_date"):
-        due_date = f" (prazo: {task['due_date']})"
+    # Prioridade com cor/simbolo
+    priority = task.get("priority", "M")
     
-    return f"{status} [{task['priority']}] #{task['id']} - {task['title']}{due_date}"
+    # Data de prazo (se existir)
+    due = f" | 📅 {task['due_date']}" if task.get("due_date") else ""
+    
+    return f"{status} [{priority}] #{task['id']:03d} - {task['title']}{due}"
 
 def filter_tasks(tasks, show_done=True):
     if show_done:
