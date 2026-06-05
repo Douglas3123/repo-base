@@ -1,5 +1,5 @@
 # Zona de conflito intencional: ambos os devs modificarão format_task e filter_tasks
-
+"""Filtra tarefas por status e prioridade."""
 def format_task(task):
     status = "[ ]"
     return f"{status} [{task['priority']}] #{task['id']} - {task['title']}"
